@@ -3,14 +3,26 @@ services:
     container_name: product
     build:
       context: "./"
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     image: "product:1.0.0"
+    logging:
+      options:
+        max-size: "1m"
+    restart: always
+    depends_on:
+      - postgres_ol
     environment:
+      - DB_CONNECTION_URI=postgresql://postgres:isro@postgres_ol:5432/postgres?sslmode=disable
       - APP_PORT=4000
     ports:
       - 4000:4000
-  postgres_online_shop:
-    container_name: postgres_online_shop
+    volumes:
+      - .:/app
+    networks:
+      - postgres_network
+
+  postgres_ol:
+    container_name: postgres_ol
     image: postgres:16
     ports:
       - 5432:5432
@@ -23,7 +35,13 @@ services:
         source: postgres_volume
         target: /var/lib/postgresql/data
         read_only: false
+    networks:
+      - postgres_network
 
 volumes:
   postgres_volume:
     name: postgres_volume
+
+networks:
+  postgres_network:
+    name: postgres_network
