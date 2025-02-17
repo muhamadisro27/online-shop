@@ -1,0 +1,11 @@
+services:
+  product:
+    container_name: product
+    build: 
+      context: "./app"
+      dockerfile: Dockerfile
+    image: "product:1.0.0" 
+    environment:
+      - APP_PORT=4000
+    ports:
+      - 4000:4000
