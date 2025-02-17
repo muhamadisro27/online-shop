@@ -1,11 +1,29 @@
 services:
   product:
     container_name: product
-    build: 
+    build:
       context: "./app"
       dockerfile: Dockerfile
-    image: "product:1.0.0" 
+    image: "product:1.0.0"
     environment:
       - APP_PORT=4000
     ports:
       - 4000:4000
+  postgres_online_shop:
+    container_name: postgres_online_shop
+    image: postgres:16
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=isro
+      - POSTGRES_DB=database
+    volumes:
+      - type: volume
+        source: postgres_volume
+        target: /var/lib/postgresql/data
+        read_only: false
+
+volumes:
+  postgres_volume:
+    name: postgres_volume
