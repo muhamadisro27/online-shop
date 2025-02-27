@@ -1,14 +1,14 @@
 services:
-  product:
-    container_name: product
+  api-product:
+    container_name: api-product
     build:
-      context: "./"
+      context: .
       dockerfile: Dockerfile.dev
-    image: "product:1.0.0"
+    image: "api-product:1.0.0"
     logging:
       options:
         max-size: "1m"
-    restart: always
+    # restart: always
     depends_on:
       - postgres_ol
     environment:
@@ -18,8 +18,8 @@ services:
       - 4000:4000
     volumes:
       - .:/app
-    networks:
-      - postgres_network
+    # networks:
+    #   - postgres_network
 
   postgres_ol:
     container_name: postgres_ol
@@ -35,13 +35,13 @@ services:
         source: postgres_volume
         target: /var/lib/postgresql/data
         read_only: false
-    networks:
-      - postgres_network
+    # networks:
+    #   - postgres_network
 
 volumes:
   postgres_volume:
     name: postgres_volume
 
-networks:
-  postgres_network:
-    name: postgres_network
+# networks:
+#   postgres_network:
+#     name: postgres_network
