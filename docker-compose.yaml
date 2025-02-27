@@ -8,7 +8,6 @@ services:
     logging:
       options:
         max-size: "1m"
-    # restart: always
     depends_on:
       - postgres_ol
     environment:
@@ -18,8 +17,8 @@ services:
       - 4000:4000
     volumes:
       - .:/app
-    # networks:
-    #   - postgres_network
+    networks:
+      - ol_network
 
   postgres_ol:
     container_name: postgres_ol
@@ -35,13 +34,13 @@ services:
         source: postgres_volume
         target: /var/lib/postgresql/data
         read_only: false
-    # networks:
-    #   - postgres_network
+    networks:
+      - ol_network
 
 volumes:
   postgres_volume:
     name: postgres_volume
 
-# networks:
-#   postgres_network:
-#     name: postgres_network
+networks:
+  ol_network:
+    name: ol_network
