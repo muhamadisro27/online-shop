@@ -5,7 +5,7 @@ import (
 	"os"
 )
 
-func PanicIfError(err error) {
-	fmt.Println(err)
+func PanicIfError(message string, err error) {
+	fmt.Printf("%v %v\n", message, err)
 	os.Exit(0)
 }
